@@ -1,5 +1,11 @@
 const path = require('path');
 
+const toml = require('toml');
+
+const yaml = require('yamljs');
+
+const json5 = require('json5');
+
  module.exports = {
    entry: './src/index.js',
    output: {
@@ -20,20 +26,54 @@ const path = require('path');
          test: /\.(woff|woff2|eot|ttf|otf)$/i,
          type: 'asset/resource',
        },
+       {
+         test: /\.(csv|tsv)$/i,
+         use: ['csv-loader'],
+       },
+       {
+         test: /\.xml$/i,
+         use: ['xml-loader'],
+       },
 
       {
 
-        test: /\.(csv|tsv)$/i,
+        test: /\.toml$/i,
 
-        use: ['csv-loader'],
+        type: 'json',
+
+        parser: {
+
+          parse: toml.parse,
+
+        },
 
       },
 
       {
 
-        test: /\.xml$/i,
+        test: /\.yaml$/i,
 
-        use: ['xml-loader'],
+        type: 'json',
+
+        parser: {
+
+          parse: yaml.parse,
+
+        },
+
+      },
+
+      {
+
+        test: /\.json5$/i,
+
+        type: 'json',
+
+        parser: {
+
+          parse: json5.parse,
+
+        },
 
       },
      ],
